@@ -6,8 +6,17 @@ const MutationObserver = window.MutationObserver || (window as any).WebKitMutati
 const observer = new MutationObserver((mutations: MutationRecord[]) => {
     for (let i in mutations) {
         const mutation = mutations[i];
-        if (mutation.target != null && mutation.target instanceof Image) {
-            if (mutation.attributeName == "src" && mutation.target.src == imageErrorSrc)
+
+        let countAddedImage: number = 0;
+        for(let i in mutation.addedNodes) {
+            const el = mutation.addedNodes[i];
+
+            if(el instanceof Image)
+                countAddedImage++
+        }
+
+        if (mutation.target != null && mutation.target instanceof Image || countAddedImage > 0) {
+            if (mutation.attributeName == "src" && mutation.target instanceof Image && mutation.target.src == imageErrorSrc)
                 return;
 
             checkImages();
@@ -56,12 +65,18 @@ function checkImages(): void {
         if (!isNaN(parseInt(spinnerSize)))
             size = parseInt(spinnerSize)
 
+        const spinner_container = document.createElement("div");
+        spinner_container.style.width = size + "px";
+        spinner_container.style.height = size + "px";
+
         const spinner = document.createElement("div");
         spinner.classList.add("spinner");
-        spinner.style.width = size + "px";
-        spinner.style.height = size + "px";
-        (image as any).spinner = spinner;
-        parentElement.insertBefore(spinner, image);
+        spinner.style.width = (size/2) + "px";
+        spinner.style.height = (size/2) + "px";
+        spinner_container.appendChild(spinner);
+
+        (image as any).spinner = spinner_container;
+        parentElement.insertBefore(spinner_container, image);
 
         image.addEventListener("load", imageLoaded);
 		image.addEventListener("error", imageError);
@@ -88,6 +103,7 @@ export function ImageLoader(errorUrl: string | null = null): void {
     imageErrorSrc = errorUrl;
 
     observer.observe(document, {
+        childList: true,
         subtree: true,
         attributes: true
     });
