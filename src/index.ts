@@ -1,4 +1,5 @@
-let imageErrorSrc: string | null = null;
+let imageErrorSrc: string | null = null,
+    firstInit = true;
 
 const MutationObserver = window.MutationObserver || (window as any).WebKitMutationObserver;
 
@@ -37,6 +38,7 @@ function imageError(e: any): void {
     }
 
     e.target.src = imageErrorSrc;
+    imageErrorSrc = e.target.src;
 }
 
 function checkImages(): void {
@@ -63,7 +65,23 @@ function checkImages(): void {
 
         image.addEventListener("load", imageLoaded);
 		image.addEventListener("error", imageError);
+
+        if(firstInit && isLocalImage(image.src))
+            image.src = image.src;
     })
+
+    if(firstInit)
+        firstInit = false;
+}
+
+function isLocalImage(src: string): boolean {
+    if(src.startsWith(`http://${window.location.hostname}/`) || src.startsWith(`https://${window.location.hostname}/`))
+        return true;
+
+    if(src.startsWith("http://") || src.startsWith("https://"))
+        return false;
+
+    return true;
 }
 
 export function ImageLoader(errorUrl: string | null = null): void {
