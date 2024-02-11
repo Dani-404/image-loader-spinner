@@ -1,0 +1,40 @@
+{
+  "name": "image-loader-spinner",
+  "version": "1.0.4",
+  "description": "Use a spinner until your images are completely loaded in the DOM",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup"
+  },
+  "keywords": [
+    "image",
+    "loader",
+    "spinner",
+    "wait",
+    "dom",
+    "loading",
+    "loading"
+  ],
+  "author": "Daniel (https://github.com/Dani-404)",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Dani-404/image-loader-spinner.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Dani-404/image-loader-spinner/issues"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.0.2",
+    "typescript": "^5.3.3"
+  }
+}
