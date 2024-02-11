@@ -12,7 +12,7 @@ npm i image-loader-spinner
 
 ### Usage
 ```javascript
-import ImageLoader from 'image-loader-spinner'
+import ImageLoader from 'image-loader-spinner';
 ImageLoader('assets/images/errorLoad.png'); // you can pass an default image src error
 ```
 
@@ -30,17 +30,17 @@ ImageLoader('assets/images/errorLoad.png'); // you can pass an default image src
 			    display: flex;
 			    align-items: center;
 			    background-color: rgba(0, 0, 0, 0.05);
-
-                .spinner {
-                    border: 3px solid #333;
-                    border-bottom-color: transparent;
-                    border-radius: 50%;
-                    display: inline-block;
-                    box-sizing: border-box;
-                    animation: rotation 1s linear infinite;
-                    margin: auto
-                }
 		    }
+
+            .spinner {
+                border: 3px solid #333;
+                border-bottom-color: transparent;
+                border-radius: 50%;
+                display: inline-block;
+                box-sizing: border-box;
+                animation: rotation 1s linear infinite;
+                margin: auto
+            }
 
             @keyframes rotation {
                 0% {
@@ -65,29 +65,36 @@ ImageLoader('assets/images/errorLoad.png'); // you can pass an default image src
 Add the attribute spinner for set the loading spinner instead an empty image.<br />
 The attribute is the size of your spinner_container div.<br />
 The spinner will be half the size of your container.<br />
+Your spinner will be display as :
+```html
+<div class="spinner_container">
+    <div class="spinner"></div>
+</div>
+```
+<br />
 The module detect the DOM inserted images and updated images, and actualise spinners while loading.
 
 ### Test Delay
 ```javascript
-import ImageLoader from 'image-loader-spinner'
+import ImageLoader from 'image-loader-spinner';
 ImageLoader();
 
 const image = new Image();
 image.setAttribute("spinner", "100");
 setTimeout(() => {
-	image.src = "https://i.imgur.com/rsjPao4.gif";
-}, 5000)
+    image.src = "https://i.imgur.com/rsjPao4.gif";
+}, 5000);
 document.body.appendChild(image);
 ```
 
 ### Reload image src dynamically
 ```javascript
-import ImageLoader from 'image-loader-spinner'
+import ImageLoader from 'image-loader-spinner';
 ImageLoader();
 
 setTimeout(() => {
     const image = document.getElementById("myImage");
     image.setAttribute("spinner", "100");
-	image.src = "https://i.imgur.com/rsjPao4.gif";
-}, 5000)
+    image.src = "https://i.imgur.com/rsjPao4.gif";
+}, 5000);
 ```
