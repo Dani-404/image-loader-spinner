@@ -1,6 +1,6 @@
 {
   "name": "image-loader-spinner",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "Use a spinner until your images are completely loaded in the DOM",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

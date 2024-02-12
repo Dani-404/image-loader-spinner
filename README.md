@@ -8,7 +8,7 @@ npm i image-loader-spinner
 ```
 
 ### Example output
-![image](https://i.imgur.com/l9kSkEO.gif)
+![image](https://i.imgur.com/j6X4n5D.gif)
 
 ### Usage
 ```javascript
