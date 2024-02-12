@@ -1,6 +1,6 @@
 let imageErrorSrc: string | null = null,
     firstInit = true,
-    imageDefaultSize = 50;
+    imageDefaultSize = 100;
 
 const MutationObserver = window.MutationObserver || (window as any).WebKitMutationObserver;
 
@@ -61,12 +61,11 @@ function checkImages(): void {
         if (image.getAttribute("spinner") == null || image.getAttribute("loading") != null || parentElement == null)
             return;
 
-        image.style.display = "none";
         image.setAttribute("loading", "true");
 
         const size = image.getAttribute("size"),
-            widthSize = image.getAttribute("sizeWidth"),
-            heightSize = image.getAttribute("sizeWidth");
+            widthSize = image.getAttribute("wsize"),
+            heightSize = image.getAttribute("hsize");
 
         let spinner_container_size = {width: imageDefaultSize, height: imageDefaultSize};
         let defaultUnit = { width: "px", height: "px"};
@@ -87,29 +86,32 @@ function checkImages(): void {
         }
 
         const spinner_container = document.createElement("div");
-        spinner_container.style.width = spinner_container_size + defaultUnit.toString();
-        spinner_container.style.height = spinner_container_size + defaultUnit.toString();
+        spinner_container.classList.add("spinner_container");
+        spinner_container.style.width = spinner_container_size.width + defaultUnit.width;
+        spinner_container.style.height = spinner_container_size.height + defaultUnit.height;
+
+        const spinner = document.createElement("div");
+        spinner.classList.add("spinner");
+        spinner_container.appendChild(spinner);
+
+        if(image.style.display == "none")
+            (image as any).displayAfterLoad = false;
+        else {
+            image.style.display = "none";
+            (image as any).displayAfterLoad = true;
+        }
+
+        (image as any).spinnerContainer = spinner_container;
+        parentElement.insertBefore(spinner_container, image);
 
         let spinner_size = {width: spinner_container.clientWidth/2, height: spinner_container.clientHeight/2};
-
         if(spinner_size.width > spinner_size.height)
             spinner_size = {width: spinner_container.clientHeight/2, height: spinner_container.clientHeight/2}
         else
             spinner_size = {width: spinner_container.clientWidth/2, height: spinner_container.clientWidth/2}
 
-        const spinner = document.createElement("div");
-        spinner.classList.add("spinner");
-        spinner.style.width = spinner_size + "px";
-        spinner.style.height = spinner_size + "px";
-        spinner_container.appendChild(spinner);
-
-        if(image.style.display == "none")
-            (image as any).displayAfterLoad = false;
-        else
-            (image as any).displayAfterLoad = true; 
-
-        (image as any).spinnerContainer = spinner_container;
-        parentElement.insertBefore(spinner_container, image);
+        spinner.style.width = spinner_size.width + "px";
+        spinner.style.height = spinner_size.height + "px"; 
 
         image.addEventListener("load", imageLoaded);
 		image.addEventListener("error", imageError);

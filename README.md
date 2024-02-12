@@ -15,7 +15,7 @@ npm i image-loader-spinner
 import ImageLoader from 'image-loader-spinner';
 
 // first argument is an default image src error (default is null)
-// second argument is the default size of loading container in pixel (default is 50)
+// second argument is the default size of loading container in pixel (default is 100)
 ImageLoader('assets/images/errorLoad.png', 150);
 ```
 
@@ -61,7 +61,7 @@ ImageLoader('assets/images/errorLoad.png', 150);
         <img src="assets/images/image.png" spinner="true" size="150px" /> <!-- Show spinner container with widthSize 150px, heightSize 150px -->
 
         <div class="insideDiv">
-            <img src="assets/images/image.png" spinner="true" widthSize="50px" heightSize="200px" /> <!-- Show spinner container with widthSize 50px, heightSize 200px -->
+            <img src="assets/images/image.png" spinner="true" wsize="50%" hsize="200px" /> <!-- Show spinner container with widthSize 50px, heightSize 200px -->
         </div>
     </body>
 </html>
@@ -86,9 +86,11 @@ ImageLoader();
 
 const image = new Image();
 image.setAttribute("spinner", "true");
+image.setAttribute("hsize", "200")
+image.setAttribute("wsize", "100%")
 setTimeout(() => {
-    image.src = "https://i.imgur.com/rsjPao4.gif";
-}, 5000);
+	image.src = "https://i.imgur.com/rsjPao4.gif";
+}, 5000)
 document.body.appendChild(image);
 ```
 
@@ -100,6 +102,7 @@ ImageLoader();
 setTimeout(() => {
     const image = document.getElementById("myImage");
     image.setAttribute("spinner", "true");
+    // image.setAttribute("size", "100"); // redefine size of the loader container
     image.src = "https://i.imgur.com/rsjPao4.gif";
 }, 5000);
 ```
