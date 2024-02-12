@@ -38,7 +38,7 @@ function imageLoaded(e: any): void {
 
         if(fadeIn != null && fadeIn == "true") {
             let maxOpacity = e.target.style.opacity == "" ? 1 : parseFloat(e.target.style.opacity);
-            if(isNaN(maxOpacity))
+            if(isNaN(maxOpacity) || maxOpacity > 1)
                 maxOpacity = 1;
 
             e.target.style.opacity = 0;
