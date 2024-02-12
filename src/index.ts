@@ -31,7 +31,9 @@ function imageLoaded(e: any): void {
     e.target.spinner = null;
     e.target.removeAttribute("loading");
     e.target.removeAttribute("spinner");
-    e.target.style.display = "block";
+
+    if(e.target.displayAfterLoad)
+        e.target.style.display = "block";
 }
 
 function imageError(e: any): void {
@@ -42,7 +44,9 @@ function imageError(e: any): void {
         e.target.spinner = null;
         e.target.removeAttribute("loading");
         e.target.removeAttribute("spinner");
-        e.target.style.display = "block";
+
+        if(e.target.displayAfterLoad)
+            e.target.style.display = "block";
         return;
     }
 
@@ -74,6 +78,11 @@ function checkImages(): void {
         spinner.style.width = (size/2) + "px";
         spinner.style.height = (size/2) + "px";
         spinner_container.appendChild(spinner);
+
+        if(image.style.display == "none")
+            (image as any).displayAfterLoad = false;
+        else
+            (image as any).displayAfterLoad = true; 
 
         (image as any).spinner = spinner_container;
         parentElement.insertBefore(spinner_container, image);

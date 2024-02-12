@@ -27,11 +27,11 @@ ImageLoader('assets/images/errorLoad.png'); // you can pass an default image src
     <body>
         <style>
             .spinner_container {
-			    display: flex;
-			    align-items: center;
-			    background-color: rgba(0, 0, 0, 0.05);
-		    }
-
+                display: flex;
+                align-items: center;
+                background-color: rgba(0, 0, 0, 0.05);
+            }
+            
             .spinner {
                 border: 3px solid #333;
                 border-bottom-color: transparent;
