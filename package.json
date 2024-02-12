@@ -1,6 +1,6 @@
 {
   "name": "image-loader-spinner",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Use a spinner until your images are completely loaded in the DOM",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -21,6 +21,7 @@
     "loading"
   ],
   "author": "Daniel (https://github.com/Dani-404)",
+  "funding": "https://github.com/sponsors/Dani-404",
   "license": "ISC",
   "repository": {
     "type": "git",
