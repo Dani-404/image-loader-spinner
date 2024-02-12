@@ -1,5 +1,6 @@
 let imageErrorSrc: string | null = null,
-    firstInit = true;
+    firstInit = true,
+    imageDefaultSize = 50;
 
 const MutationObserver = window.MutationObserver || (window as any).WebKitMutationObserver;
 
@@ -27,8 +28,8 @@ const observer = new MutationObserver((mutations: MutationRecord[]) => {
 function imageLoaded(e: any): void {
     e.target.removeEventListener("load", imageLoaded);
     e.target.removeEventListener("error", imageError);
-    e.target.parentElement.removeChild(e.target.spinner);
-    e.target.spinner = null;
+    e.target.parentElement.removeChild(e.target.spinnerContainer);
+    e.target.spinnerContainer = null;
     e.target.removeAttribute("loading");
     e.target.removeAttribute("spinner");
 
@@ -40,8 +41,8 @@ function imageError(e: any): void {
     if (imageErrorSrc == null || e.target.src == imageErrorSrc) {
         e.target.removeEventListener("load", imageLoaded);
         e.target.removeEventListener("error", imageError);
-        e.target.parentElement.removeChild(e.target.spinner);
-        e.target.spinner = null;
+        e.target.parentElement.removeChild(e.target.spinnerContainer);
+        e.target.spinnerContainer = null;
         e.target.removeAttribute("loading");
         e.target.removeAttribute("spinner");
 
@@ -55,28 +56,51 @@ function imageError(e: any): void {
 }
 
 function checkImages(): void {
-    document.body.querySelectorAll("img").forEach((image: HTMLImageElement) => {
-        const spinnerSize = image.getAttribute("spinner");
+    document.body.querySelectorAll("img").forEach((image: HTMLImageElement) => {        
         const parentElement = image.parentElement;
-
-        if (spinnerSize == null || image.getAttribute("loading") != null || parentElement == null)
+        if (image.getAttribute("spinner") == null || image.getAttribute("loading") != null || parentElement == null)
             return;
 
         image.style.display = "none";
         image.setAttribute("loading", "true");
 
-        let size = 50;
-        if (!isNaN(parseInt(spinnerSize)))
-            size = parseInt(spinnerSize)
+        const size = image.getAttribute("size"),
+            widthSize = image.getAttribute("sizeWidth"),
+            heightSize = image.getAttribute("sizeWidth");
+
+        let spinner_container_size = {width: imageDefaultSize, height: imageDefaultSize};
+        let defaultUnit = { width: "px", height: "px"};
+
+        if(size != null && !isNaN(parseInt(size))) {
+            spinner_container_size = {width: parseInt(size), height: parseInt(size)};
+            defaultUnit = {width: getUnit(size), height: getUnit(size)}
+        }
+
+        if(widthSize != null && !isNaN(parseInt(widthSize))) {
+            spinner_container_size = {width: parseInt(widthSize), height: spinner_container_size.height}
+            defaultUnit = {width: getUnit(widthSize), height: defaultUnit.height}
+        }
+
+        if(heightSize != null && !isNaN(parseInt(heightSize))) {
+            spinner_container_size = {width: spinner_container_size.width, height: parseInt(heightSize)}
+            defaultUnit = {width: defaultUnit.width, height: getUnit(heightSize)}
+        }
 
         const spinner_container = document.createElement("div");
-        spinner_container.style.width = size + "px";
-        spinner_container.style.height = size + "px";
+        spinner_container.style.width = spinner_container_size + defaultUnit.toString();
+        spinner_container.style.height = spinner_container_size + defaultUnit.toString();
+
+        let spinner_size = {width: spinner_container.clientWidth/2, height: spinner_container.clientHeight/2};
+
+        if(spinner_size.width > spinner_size.height)
+            spinner_size = {width: spinner_container.clientHeight/2, height: spinner_container.clientHeight/2}
+        else
+            spinner_size = {width: spinner_container.clientWidth/2, height: spinner_container.clientWidth/2}
 
         const spinner = document.createElement("div");
         spinner.classList.add("spinner");
-        spinner.style.width = (size/2) + "px";
-        spinner.style.height = (size/2) + "px";
+        spinner.style.width = spinner_size + "px";
+        spinner.style.height = spinner_size + "px";
         spinner_container.appendChild(spinner);
 
         if(image.style.display == "none")
@@ -84,7 +108,7 @@ function checkImages(): void {
         else
             (image as any).displayAfterLoad = true; 
 
-        (image as any).spinner = spinner_container;
+        (image as any).spinnerContainer = spinner_container;
         parentElement.insertBefore(spinner_container, image);
 
         image.addEventListener("load", imageLoaded);
@@ -98,6 +122,17 @@ function checkImages(): void {
         firstInit = false;
 }
 
+function getUnit(value: string) {
+    if(value.endsWith("%"))
+        return "%";
+    else if(value.endsWith("vh"))
+        return "vh";
+    else if(value.endsWith("vw"))
+        return "vw";
+    else
+        return "px"
+}
+
 function isLocalImage(src: string): boolean {
     if(src.startsWith(`http://${window.location.hostname}/`) || src.startsWith(`https://${window.location.hostname}/`))
         return true;
@@ -108,7 +143,8 @@ function isLocalImage(src: string): boolean {
     return true;
 }
 
-export function ImageLoader(errorUrl: string | null = null): void {
+export function ImageLoader(errorUrl: string | null = null, defaultSize: number = imageDefaultSize): void {
+    imageDefaultSize = defaultSize;
     imageErrorSrc = errorUrl;
 
     observer.observe(document, {

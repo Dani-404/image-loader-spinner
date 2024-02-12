@@ -13,7 +13,10 @@ npm i image-loader-spinner
 ### Usage
 ```javascript
 import ImageLoader from 'image-loader-spinner';
-ImageLoader('assets/images/errorLoad.png'); // you can pass an default image src error
+
+// first argument is an default image src error (default is null)
+// second argument is the default size of loading container in pixel (default is 50)
+ImageLoader('assets/images/errorLoad.png', 150);
 ```
 
 ```html
@@ -53,17 +56,19 @@ ImageLoader('assets/images/errorLoad.png'); // you can pass an default image src
             }
         </style>
 
-        <img src="assets/images/image.png" spinner="100" /> <!-- Spinner size 50px -->
+        <img src="assets/images/image.png" spinner="true" /> <!-- Show spinner container with defaultSize -->
+
+        <img src="assets/images/image.png" spinner="true" size="150px" /> <!-- Show spinner container with widthSize 150px, heightSize 150px -->
 
         <div class="insideDiv">
-            <img src="assets/images/secondImage.png" spinner="150" /> <!-- Spinner size 150px -->
+            <img src="assets/images/image.png" spinner="true" widthSize="50px" heightSize="200px" /> <!-- Show spinner container with widthSize 50px, heightSize 200px -->
         </div>
     </body>
 </html>
 ```
 
 Add the attribute spinner for set the loading spinner instead an empty image.<br />
-The attribute is the size of your spinner_container div.<br />
+The attribute size is the size of your spinner_container div.<br />
 The spinner will be half the size of your container.<br />
 Your spinner will be display as :
 ```html
@@ -80,7 +85,7 @@ import ImageLoader from 'image-loader-spinner';
 ImageLoader();
 
 const image = new Image();
-image.setAttribute("spinner", "100");
+image.setAttribute("spinner", "true");
 setTimeout(() => {
     image.src = "https://i.imgur.com/rsjPao4.gif";
 }, 5000);
@@ -94,7 +99,7 @@ ImageLoader();
 
 setTimeout(() => {
     const image = document.getElementById("myImage");
-    image.setAttribute("spinner", "100");
+    image.setAttribute("spinner", "true");
     image.src = "https://i.imgur.com/rsjPao4.gif";
 }, 5000);
 ```
