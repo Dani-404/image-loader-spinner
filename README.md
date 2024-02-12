@@ -1,5 +1,8 @@
 
 ## image-loader-spinner
+[![NPM version](https://img.shields.io/npm/v/image-loader-spinner.svg?style=flat-square)](https://www.npmjs.com/package/image-loader-spinner)
+[![Downloads](https://img.shields.io/npm/dm/image-loader-spinner.svg?style=flat-square)](https://www.npmjs.com/package/image-loader-spinner)
+<br />
 Use a spinner until your images are completely loaded in the DOM
 
 ### Installation
