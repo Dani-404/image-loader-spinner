@@ -56,7 +56,7 @@ ImageLoader('assets/images/errorLoad.png', 150);
             }
         </style>
 
-        <img src="assets/images/image.png" spinner="true" /> <!-- Show spinner container with defaultSize -->
+        <img src="assets/images/image.png" spinner="true" fadein="true"/> <!-- Show spinner container with defaultSize and fadeIn animation -->
 
         <img src="assets/images/image.png" spinner="true" size="150px" /> <!-- Show spinner container with widthSize 150px, heightSize 150px -->
 
@@ -67,8 +67,13 @@ ImageLoader('assets/images/errorLoad.png', 150);
 </html>
 ```
 
-Add the attribute spinner for set the loading spinner instead an empty image.<br />
-The attribute size is the size of your spinner_container div.<br />
+Add the attribute **spinner** to **true** for set the loading spinner instead an empty image.<br />
+The attribute **size** is the size of your spinner_container (by default is set to 100 or your default value configuration).<br />
+The attribute **wsize** is the width size of your spinner_container<br />
+The attribute **hsize** is the height size of your spinner_container<br />
+The attribute **fadein** will display your image with fadeIn animation to your opacity value (20fps)<br />
+Values can be set to pixels, percentages, and viewports.<br /><br/>
+
 The spinner will be half the size of your container.<br />
 Your spinner will be display as :
 ```html

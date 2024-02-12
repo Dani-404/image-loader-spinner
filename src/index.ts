@@ -33,8 +33,32 @@ function imageLoaded(e: any): void {
     e.target.removeAttribute("loading");
     e.target.removeAttribute("spinner");
 
-    if(e.target.displayAfterLoad)
-        e.target.style.display = "block";
+    if(e.target.displayAfterLoad) {
+        const fadeIn = e.target.getAttribute("fadein");
+
+        if(fadeIn != null && fadeIn == "true") {
+            let maxOpacity = e.target.style.opacity == "" ? 1 : parseFloat(e.target.style.opacity);
+            if(isNaN(maxOpacity))
+                maxOpacity = 1;
+
+            e.target.style.opacity = 0;
+            e.target.style.display = "block";
+
+            const element = e.target;
+            const interval = window.setInterval(() => {
+                if(parseFloat(element.style.opacity) >= maxOpacity)
+                  return window.clearInterval(interval);
+                
+               const opacityImage = parseFloat(element.style.opacity);
+               element.style.opacity = opacityImage + 0.05;
+
+                if(parseFloat(element.style.opacity) > maxOpacity)
+                    element.style.opacity = maxOpacity;
+            }, 1000/20)
+        }
+        else
+            e.target.style.display = "block";
+    }
 }
 
 function imageError(e: any): void {
@@ -56,9 +80,10 @@ function imageError(e: any): void {
 }
 
 function checkImages(): void {
-    document.body.querySelectorAll("img").forEach((image: HTMLImageElement) => {        
+    document.body.querySelectorAll("img").forEach((image: HTMLImageElement) => {      
+        const spinnerAttribute = image.getAttribute("spinner");
         const parentElement = image.parentElement;
-        if (image.getAttribute("spinner") == null || image.getAttribute("loading") != null || parentElement == null)
+        if (spinnerAttribute == null || spinnerAttribute != "true" || image.getAttribute("loading") != null || parentElement == null)
             return;
 
         image.setAttribute("loading", "true");
